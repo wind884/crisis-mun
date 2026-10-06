@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="CrisisMUN country draw. Works locally in a browser.">
+<title>CrisisMUN · 抽签 / Seat draw</title>
+<style>
+:root{color-scheme:light;--ink:#142b35;--accent:#176b62;--muted:#586a70}*{box-sizing:border-box}body{margin:0;background:#f3f5f2;color:var(--ink);font:16px/1.65 system-ui,sans-serif}main{max-width:760px;margin:40px auto;padding:30px;background:#fff;border:1px solid #d9e0dc;border-radius:16px}h1{font-size:28px;margin:12px 0}p{color:var(--muted)}label{display:block;font-weight:600;margin:20px 0 8px}textarea{width:100%;min-height:190px;padding:14px;border:1px solid #acbbb6;border-radius:8px;font:15px/1.6 ui-monospace,monospace;resize:vertical}select,button{font:inherit;padding:10px 18px;border-radius:7px;border:1px solid #acbbb6}button{background:var(--accent);color:white;border:0;cursor:pointer;margin:14px 8px 0 0}button:disabled{opacity:.45;cursor:default}#status{min-height:30px;color:var(--ink);font-weight:600}#receipt{min-height:200px;background:#f5f8f6}small{color:var(--muted)}:focus-visible{outline:3px solid #9ed5c0;outline-offset:3px}@media(max-width:600px){main{margin:12px;padding:20px}}
+</style>
+</head>
+<body>
+<main>
+<label for="language">语言 / Language</label>
+<select id="language"><option value="zh">中文</option><option value="en">English</option></select>
+<h1 id="heading">CrisisMUN · 国家抽签</h1>
+<p id="intro">把聊天里已经确定的国家名单贴到下面，每行一个。每个国家机会相同；不要增加同一国家的别名。</p>
+<label id="poolLabel" for="pool">合资格名单</label>
+<textarea id="pool" spellcheck="false" placeholder="中国&#10;法国&#10;巴西"></textarea>
+<button type="button" id="draw">抽签</button>
+<p id="status" role="status" aria-live="polite"></p>
+<label id="receiptLabel" for="receipt">抽签回执：复制后贴回聊天</label>
+<textarea id="receipt" readonly spellcheck="false"></textarea>
+<button type="button" id="copy" disabled>复制回执</button>
+<p><small id="note">本地运行，无需登录，不上传数据。采用浏览器随机源与拒绝采样，不按国家实力加权。按已约定名单抽取，第一次有效结果为准；只有玩家提出重抽时才重抽。</small></p>
+</main>
+<script id="random-core">
+function drawUniform(pool, fillRandom) {
+  if (!Array.isArray(pool) || !pool.length) throw new Error('empty');
+  if (pool.length > 4294967296 || pool.some(x => typeof x !== 'string' || !x.trim())) throw new Error('invalid');
+  const names = pool.map(x => x.trim());
+  if (new Set(names.map(x => x.normalize('NFKC').toLowerCase())).size !== names.length) throw new Error('duplicate');
+  const count = names.length;
+  const limit = Math.floor(4294967296 / count) * count;
+  const buffer = new Uint32Array(1);
+  let value;
+  do { fillRandom(buffer); value = buffer[0]; } while (value >= limit);
+  const index = value % count;
+  return {pool:names,index:index+1,selected:names[index],probability:'1/'+count,method:'crypto.getRandomValues/rejection-sampling'};
+}
+</script>
+<script>
+const get = id => document.getElementById(id);
+const words = {
+  zh:{heading:'CrisisMUN · 国家抽签',intro:'把聊天里已经确定的国家名单贴到下面，每行一个。每个国家机会相同；不要增加同一国家的别名。',poolLabel:'合资格名单',draw:'抽签',receiptLabel:'抽签回执：复制后贴回聊天',copy:'复制回执',note:'本地运行，无需登录，不上传数据。采用浏览器随机源与拒绝采样，不按国家实力加权。按已约定名单抽取，第一次有效结果为准；只有玩家提出重抽时才重抽。',empty:'请先粘贴合资格名单。',invalid:'名单需要每行一个有效名称。',duplicate:'名单中有重复项，请先去掉；同一国家的不同语言名称也只能留一个。',unavailable:'此浏览器无法使用所需的随机源。请换用支持 Web Crypto 的浏览器，不会改用模拟随机。',selected:'抽中：',chance:'每项概率：',copied:'回执已复制，请贴回聊天。',manual:'已选中回执，请手动复制后贴回聊天。'},
+  en:{heading:'CrisisMUN · Country draw',intro:'Paste the country list already agreed in your chat, one country per line. Every country has an equal chance. Do not add aliases for the same country.',poolLabel:'Eligible countries',draw:'Draw',receiptLabel:'Draw receipt: copy it back into your chat',copy:'Copy receipt',note:'Runs locally. No login, uploads or network requests. Uses the browser random source with rejection sampling and no country weighting. Use the agreed pool and accept the first valid result; redraw only at the player’s request.',empty:'Paste the eligible list first.',invalid:'Each line must contain a valid name.',duplicate:'Remove duplicate entries, including different-language aliases for the same country.',unavailable:'The required random source is unavailable. Use a browser with Web Crypto support. There is no simulated fallback.',selected:'Selected: ',chance:'Chance per entry: ',copied:'Receipt copied. Paste it into your chat.',manual:'Receipt selected. Copy it manually and paste it into your chat.'}
+};
+let language='zh';
+function translate(){language=get('language').value;document.documentElement.lang=language==='zh'?'zh-CN':'en';for(const id of ['heading','intro','poolLabel','draw','receiptLabel','copy','note'])get(id).textContent=words[language][id];get('status').textContent='';}
+get('language').addEventListener('change',translate);
+get('pool').addEventListener('input',()=>{get('receipt').value='';get('copy').disabled=true;get('status').textContent='';});
+get('draw').addEventListener('click',()=>{
+  get('receipt').value='';get('copy').disabled=true;
+  try{
+    if(!globalThis.crypto || typeof globalThis.crypto.getRandomValues!=='function')throw new Error('unavailable');
+    const pool=get('pool').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const result=drawUniform(pool,buffer=>globalThis.crypto.getRandomValues(buffer));
+    get('receipt').value=JSON.stringify(result,null,2);get('copy').disabled=false;
+    get('status').textContent=words[language].selected+result.selected+' · '+words[language].chance+result.probability;
+  }catch(error){get('status').textContent=words[language][error.message]||words[language].invalid;}
+});
+get('copy').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText(get('receipt').value);get('status').textContent=words[language].copied;}
+  catch{get('receipt').focus();get('receipt').select();get('status').textContent=words[language].manual;}
+});
+</script>
+</body>
+</html>
