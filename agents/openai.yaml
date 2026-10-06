@@ -1,0 +1,6 @@
+interface:
+  display_name: "CrisisMUN · 危机联动模联"
+  short_description: "单席位危机联动模联：外交谈判、议事程序、持续文件与可信时间线"
+  default_prompt: "使用 $crisis-mun 带我开一场模联，先让我选择语言，再设置教程、模拟强度和席位。"
+policy:
+  allow_implicit_invocation: true
