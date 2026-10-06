@@ -1,0 +1,311 @@
+{
+  "format": "CRISISMUN SAVE",
+  "version": 1,
+  "resume_semantics": "known-state-reconstruction",
+  "scenario": {
+    "id": "CHENGHAI-DEMO-01",
+    "title": "澄海海峡",
+    "kind": "fictional",
+    "cutoff": "2032-06-18T09:00:00+00:00",
+    "baseline_sources": [],
+    "known_assumptions": [
+      "全部国家与战力指数均为虚构",
+      "单一玩家席位",
+      "开局战报确认 U-1 的既有损失"
+    ]
+  },
+  "configuration": {
+    "chair": "NORMAL",
+    "language": "中文",
+    "linkage": true,
+    "core_ai_count": 12,
+    "clock_mode": "EVENT-DRIVEN",
+    "output_style": {
+      "output_mode": "Balanced",
+      "document_display": "Formal",
+      "timestamp_format": "ISO8601"
+    },
+    "bilingual": false,
+    "spoken_language_profile": "working-language",
+    "experience": "regular",
+    "tutorial_choice": "skip",
+    "tutorial_progress": "complete",
+    "simulation_mode": "ACADEMIC",
+    "seat_selection": "specified",
+    "draw_receipt": null
+  },
+  "player": {
+    "actor_id": "CHR-FM",
+    "country": "澄海共和国",
+    "position": "外交部长",
+    "committee": "REGIONAL",
+    "authority": {
+      "can": [
+        "negotiate",
+        "submit_drafts",
+        "vote",
+        "sign_subject_to_cabinet_approval"
+      ],
+      "cannot_directly": [
+        "deploy_navy",
+        "declare_war"
+      ],
+      "can_request": [
+        "cabinet_authorization"
+      ]
+    }
+  },
+  "clock": {
+    "started_at": "2032-06-18T09:00:00+00:00",
+    "now": "2032-06-18T09:20:00+00:00",
+    "elapsed_minutes": 20
+  },
+  "committees": [
+    {
+      "id": "REGIONAL",
+      "members": [
+        "CHR-FM",
+        "NAR-DEL",
+        "SEL-DEL",
+        "VES-DEL",
+        "ORI-DEL",
+        "MER-DEL",
+        "TAL-DEL",
+        "AUR-DEL"
+      ],
+      "observers": [
+        "HRA-DIR",
+        "PORT-DIR"
+      ],
+      "present": [
+        "CHR-FM",
+        "NAR-DEL",
+        "SEL-DEL",
+        "VES-DEL",
+        "ORI-DEL",
+        "MER-DEL",
+        "TAL-DEL",
+        "AUR-DEL"
+      ],
+      "rop": {
+        "profile": "CrisisMUN simplified regional",
+        "quorum": 5,
+        "procedural_yes_required": 5,
+        "substantive": "yes > no; abstentions excluded",
+        "veto": [],
+        "draft_support_minimum": 3
+      },
+      "procedure": "UNMODERATED_CAUCUS",
+      "caucus_end": "2032-06-18T09:30:00+00:00",
+      "gsl": [
+        "ORI-DEL",
+        "CHR-FM"
+      ],
+      "current_motion": {
+        "id": "M-01",
+        "topic": "Civilian investigation",
+        "duration_minutes": 15,
+        "status": "adopted",
+        "started_at": "2032-06-18T09:15:00+00:00"
+      },
+      "pending_vote": null
+    }
+  ],
+  "public_world_state": [
+    {
+      "id": "P-01",
+      "claim": "三座灯塔失去通信，原因未确定",
+      "published_at": "2032-06-18T09:00:00+00:00",
+      "status": "CONFIRMED"
+    }
+  ],
+  "player_known_intelligence": [
+    {
+      "id": "I-01",
+      "claim": "U-1 可用战力指数为 60，尚未完成补充",
+      "event_time": "2032-06-18T08:50:00+00:00",
+      "learned_at": "2032-06-18T09:00:00+00:00",
+      "source": "Defence liaison",
+      "channel": "DIRECT",
+      "classification": "SECRET",
+      "reliability": "B",
+      "confidence": "HIGH"
+    }
+  ],
+  "relationships": [
+    {
+      "actor_id": "ORI-DEL",
+      "known_evidence": "愿意联合研究民事调查，但未承诺支持全文",
+      "learned_at": "2032-06-18T09:10:00+00:00",
+      "outstanding_promises": [
+        "AG-01"
+      ]
+    }
+  ],
+  "agreements": [
+    {
+      "id": "AG-01",
+      "parties": [
+        "CHR-FM",
+        "ORI-DEL"
+      ],
+      "level": "verbal commitment",
+      "terms": "双方于 09:40 前交换各自可公开的民事观察建议；不含情报来源",
+      "status": "active",
+      "created_at": "2032-06-18T09:10:00+00:00",
+      "deadline": "2032-06-18T09:40:00+00:00",
+      "conditions": [
+        "各自在权限范围内"
+      ],
+      "signatures": [],
+      "visibility": [
+        "CHR-FM",
+        "ORI-DEL"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "document_id": "REGIONAL:DR-1",
+      "type": "Draft Resolution",
+      "title": "联合民事调查建议",
+      "committee": "REGIONAL",
+      "created_at": "2032-06-18T09:05:00+00:00",
+      "last_modified_at": "2032-06-18T09:12:00+00:00",
+      "parent_document": null,
+      "authors": [
+        "CHR-FM"
+      ],
+      "sponsors": [
+        "CHR-FM"
+      ],
+      "signatories": [],
+      "status": "circulating",
+      "version": 2,
+      "visibility": [
+        "CHR-FM",
+        "ORI-DEL"
+      ],
+      "amendments": [],
+      "negotiation_history": [
+        "奥林建议明确委员会报告期限；没有同意联署或承诺赞成"
+      ],
+      "version_history": [
+        {
+          "id": "DR-1.1",
+          "version": 1,
+          "created_at": "2032-06-18T09:05:00+00:00",
+          "received_at": "2032-06-18T09:05:00+00:00",
+          "content": "区域紧急安全会议，\n关切民用航行安全，\n1. 建议设立经有关各方同意的联合民事调查队；\n2. 请调查队向本会报告。",
+          "change_summary": "Initial draft"
+        },
+        {
+          "id": "DR-1.2",
+          "version": 2,
+          "created_at": "2032-06-18T09:12:00+00:00",
+          "received_at": "2032-06-18T09:12:00+00:00",
+          "content": "区域紧急安全会议，\n关切民用航行安全，\n1. 建议设立经有关各方同意的联合民事调查队；\n2. 请调查队在获准开展工作后六小时内向本会提交初步报告。",
+          "change_summary": "Clause 2 adds a six-hour initial reporting deadline after authorization"
+        }
+      ]
+    }
+  ],
+  "current_versions": {
+    "REGIONAL:DR-1": "DR-1.2"
+  },
+  "pending_orders": [
+    {
+      "id": "SD-CHR-001",
+      "type": "Secret Directive",
+      "classification": "SECRET",
+      "author_actor": "CHR-FM",
+      "objective": "请求内阁评估有限海上待命",
+      "submitted_at": "2032-06-18T09:15:00+00:00",
+      "status": "NEEDS_AUTHORIZATION",
+      "resources_reserved": [],
+      "known_effect": "未授权、未调动",
+      "review_event": "K-01",
+      "content": "请内阁评估在现有资源范围内提高待命等级；本函为授权请求，不构成部署命令。"
+    }
+  ],
+  "known_scheduled_events": [
+    {
+      "id": "K-01",
+      "due_at": "2032-06-18T09:45:00+00:00",
+      "order_id": "SD-CHR-001",
+      "description": "预计收到初步审查回执，结果和实际延迟未知",
+      "status": "scheduled",
+      "time_certainty": "estimated"
+    }
+  ],
+  "pending_effects": [],
+  "public_timeline": [
+    {
+      "id": "E-01",
+      "at": "2032-06-18T09:00:00+00:00",
+      "summary": "会议开幕",
+      "cause_ids": []
+    }
+  ],
+  "player_timeline": [
+    {
+      "id": "E-02",
+      "at": "2032-06-18T09:10:00+00:00",
+      "summary": "同奥林达成交换建议的口头承诺 AG-01",
+      "cause_ids": [
+        "E-01"
+      ]
+    },
+    {
+      "id": "E-03",
+      "at": "2032-06-18T09:12:00+00:00",
+      "summary": "形成并向奥林发送 DR-1.2",
+      "cause_ids": [
+        "E-02"
+      ]
+    },
+    {
+      "id": "E-04",
+      "at": "2032-06-18T09:15:00+00:00",
+      "summary": "向内阁提交 SD-CHR-001",
+      "cause_ids": []
+    }
+  ],
+  "resources": [
+    {
+      "id": "U-1",
+      "metric": "fictional capability index",
+      "baseline": 100,
+      "current": 60,
+      "losses": 40,
+      "committed": 0,
+      "available": 60,
+      "reinforcements_completed": 0,
+      "recovery_schedule": [],
+      "known_at": "2032-06-18T09:00:00+00:00"
+    }
+  ],
+  "counters": {
+    "next_player_event": 5,
+    "next_dr_family": 2,
+    "next_secret_directive": 2
+  },
+  "continuity": {
+    "persistent_facts": [
+      "玩家没有海军部署权",
+      "U-1 战力损失持续"
+    ],
+    "active_state": [
+      "09:30 自由磋商结束",
+      "09:40 交换建议期限"
+    ],
+    "resolved_events": [
+      "DR-1.1 作为旧版保留"
+    ],
+    "open_questions": [
+      "内阁是否批准提高待命等级"
+    ],
+    "known_missing_data": [],
+    "hidden_world": "not_serialized"
+  }
+}
